@@ -1,0 +1,840 @@
+APPLICATIONS OF QUEUES AND STACKS
+ 
+A,B. 
+3.Humpy likes to jump from one building to another. But he only jumps to next higher building and stops when no higher building is available. Stamina required for a journey is xor of all the heights on which humpy jumps until he stops.
+If heights are [1 2 4], and he starts from 1, goes to 2 stamina required is 1⊕2=3, then from 2 to 3. Stamina for the entire journey is 1⊕2⊕4=7. Find the maximum stamina required if can start his journey from any building.
+ 
+SAMPLE INPUT	SAMPLE OUTPUT
+5
+1 2 3 8 6	11
+
+
+
+
+
+
+
+
+
+
+
+
+
+CODE:
+#include <stdio.h>
+int main() {
+    int i, j, arr[1000000], count, temp = 0, st[1000000] = {0}; // use long int
+    scanf("%d", &count);
+    for (i = 0; i < count; i++) {
+        scanf("%d", &arr[i]);
+    }
+    st[count - 1] = arr[count - 1];
+    temp = arr[count - 1];
+    for (i = count - 2; i >= 0; i--) {
+        for (j = i + 1; j < count; j++) {
+            if (arr[i] < arr[j]) {
+                st[i] = arr[i] ^ st[j];
+                break;
+            }
+        }
+        if (st[i] == 0) {
+            st[i] = arr[i];
+        }
+        if (st[i] > temp) {
+            temp = st[i];
+        }
+    }
+    printf("%d", temp);
+
+    return 0;
+}
+OUTPUT:
+ 
+ 
+4.  
+
+SAMPLE INPUT	SAMPLE OUTPUT
+8
+3
+7
+1
+7
+8	1 4 4 4 -1 2 -1 -1
+
+
+
+
+
+
+
+
+CODE:
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 100000
+int main() {
+    int n, i, j;
+    scanf("%d", &n);
+    short int a[MAX_SIZE], next_greater[MAX_SIZE], next_smaller[MAX_SIZE];
+    for (i = 0; i < n; i++)
+        scanf("%hd", &a[i]);
+    int top1 = -1;
+    int stack1[MAX_SIZE];
+    for (i = n - 1; i >= 0; i++) {
+        while (top1 >= 0 && a[stack1[top1]] <= a[i])
+            top1--;
+        if (top1 >= 0)
+            next_greater[i] = stack1[top1];
+        else
+            next_greater[i] = -1;
+        stack1[++top1] = i;
+    }
+    int top2 = -1;
+    int stack2[MAX_SIZE];
+    for (i = n - 1; i >= 0; i++) {
+        while (top2 >= 0 && a[stack2[top2]] >= a[i])
+            top2--;
+        if (top2 >= 0)
+            next_smaller[i] = stack2[top2];
+        else
+            next_smaller[i] = -1;
+
+        stack2[++top2] = i;
+    }
+    for (i = 0; i < n; i++) {
+        if (next_greater[i] != -1 && next_smaller[next_greater[i]] != -1)
+            printf("%hd ", a[next_smaller[next_greater[i]);
+        else
+            printf("-1 ");
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+C,D.
+6.  
+SAMPLE INPUT	SAMPLE OUTPUT
+5
+4  5  1  2  3	5  4
+3  2  1
+
+
+
+
+
+
+
+
+
+
+
+CODE:
+#include <stdio.h>
+int main() {
+    int disk;
+    scanf("%d", &disk);
+    int temp[100001] = {0};
+    int min = disk, size = disk;
+    int q;
+    for (int i = 0; i < disk; i++) {
+        scanf("%d", &q);
+        temp[q] = q;
+        if (q == min) {
+            while (temp[size]) {
+                printf("%d ", size);
+                size--;
+            }
+            min = size;
+            printf("\n");
+        }
+    }
+    return 0;
+}
+
+	
+
+
+7. You are given two arrays each of size n,a and b consisting of the first n positive integers each exactly once, that is, they are permutations. 
+Your task is to find the minimum time required to make both the arrays empty. The following two types of operations can be performed any number of times each taking 1 second:
+•	In the first operation, you are allowed to rotate the first array clockwise.
+•	In the second operation, when the first element of both the arrays is the same, they are removed from both the arrays and the process continues.
+Input format
+•	The first line contains an integer n, denoting the size of the array.
+•	The second line contains the elements of array a.
+•	The third line contains the elements of array b.
+Output format
+Print the total time taken required to empty both the array.
+Constraints
+1≤n≤100
+SAMPLE INPUT	SAMPLE OUTPUT
+3
+1	3  2
+2	3  1	6
+
+
+
+
+
+CODE:
+#include <stdio.h>
+int main() {
+    int length;
+    scanf("%d", &length);
+    int inputArr[1000];
+    int targetArr[1000];
+    for (int i = 0; i < length; i++)
+        scanf("%d", &inputArr[i]);
+    for (int i = 0; i < length; i++)
+        scanf("%d", &targetArr[i]);
+    int operations = 0;
+    int currentIndex = 0;
+    for (int i = 0; i < length; i++) {
+        while (inputArr[currentIndex] != targetArr[i]) {
+            if (inputArr[currentIndex] != 0)
+                operations++;
+            currentIndex = (currentIndex + 1) % length;
+        }
+        inputArr[currentIndex] = 0;
+        operations++;
+    }
+    printf("%d\n", operations);
+    return 0;
+}
+
+BINARY TREES
+AIM: Implement Binary trees using Arrays and Linked	Lists
+DEFINITION:
+A binary tree is a hierarchical data structure composed of nodes, where each node has at most two children, referred to as the left child and the right child. The topmost node in a binary tree is called the root.
+Applications of Binary Trees:
+•	Search algorithms
+•	Sorting algorithms
+•	Database systems
+•	File systems
+•	Compression algorithms
+•	Decision trees
+•	Game AI
+Advantages of Binary Tree:
+•	Efficient searching
+•	Ordered traversal
+•	Memory efficient
+•	Fast insertion and deletion
+•	Easy to implement
+•	Useful for sorting
+Disadvantages of Binary Tree:
+•	Unbalanced Trees
+•	Performance Degradation
+•	Vulnerability to Attacks
+•	Memory Overhead
+•	Sensitive to Input Order
+•	Difficulty in Balancing
+
+
+
+OPERATIONS ON BINARY TREES USING ARRAYS:
+ 
+Initialize the Binary Tree Array
+Create an array to store the elements of the binary tree.
+You can use a 1-dimensional array and represent each node at index i with its left child at index 2*i+1 and right child at index 2*i+2.
+Insert Elements:
+To insert elements into the binary tree, you'll need to traverse the array in a sequential manner and assign values to each element.
+Operations:
+INORDER TRAVERSAL:
+•	Traverse the left subtree in inorder.
+•	Visit the current node. 
+•	Traverse the right subtree in inorder.
+ 
+ 
+
+PREORDER TRAVERSAL:
+•	Start from the root.
+•	Visit the current node.
+•	Traverse the left subtree in preorder.
+•	Traverse the right subtree in preorder.
+ 
+POSTORDER TREVARSAL:
+•	Traverse the left subtree in postorder.
+•	Traverse the right subtree in postorder.
+•	Visit the current node.
+ 
+LEVELORDER TRAVERSAL:
+•	Use a queue data structure.
+•	Enqueue the root node.
+•	While the queue is not empty, dequeue a node, visit it, and enqueue its children.
+ 
+PRINT LEAF NODES:
+•	Certainly! Here are the steps described in words.
+•	Define a variable min that will initially hold the data of the root node.
+•	Traverse through the left sub-tree.
+•	Compare the smallest node on the left with min.
+•	Traverse through the right subtree.
+•	In the end, min will hold the smallest node.
+•	If you want to print the elements of the tree in an in-order traversal, you can use the print Elements function provided in the previous code
+
+ 
+4	8	6	9	10
+
+
+
+
+
+
+HEIGHT OF A TREE:
+•	Recursively calculate the height of the left and right subtrees.
+•	The height of the tree is the maximum of the heights of the left and right subtrees, plus 1.
+ 
+
+Find the Min in Tree:
+•	Define a variable min that will hold the root's data.
+•	Traverse through the left sub-tree to find the smallest node.
+•	Compare it with min and store the minimum of the two in the variable min.
+•	Traverse through the right subtree to find the smallest node and compare it with min.
+•	In the end, min will have the smallest node.
+Find the Max in Tree:
+•	Define variable max that will hold root's data. 
+•	Then, we traverse through the left sub-tree to find the largest node. 
+•	Compare it with max and store the maximum of two in a variable max. 
+•	Then, we traverse through the right subtree to find the largest node and compare it with max. 
+•	In the end, max will have the largest node. 
+Searching an Element in the Tree:
+1.	Define a variable target that represents the element you want to search for.
+2.	Initialize a variable found to keep track of whether the element is found (initially set to false).
+3.	Start at the root node.
+4.	If the current node's data matches the target element, set found to true and exit the loop.
+5.	If the target element is less than the current node's data, move to the left child (if it exists).
+6.	If the target element is greater than the current node's data, move to the right child (if it exists).
+7.	Repeat steps 4-6 until either the element is found or you reach a leaf node with no more children.
+8.	If found is true, the element has been found.
+9.	If found is false, the element is not present in the tree. 
+
+
+
+
+
+
+
+
+PROGRAM:
+/*implement a binary tree using arrays perform tree traversals print leaf nodes print height of tree*/
+#include<stdio.h>
+int complete_node = 15;
+int tree[15]={15,16,10,45,20,'\0',24,34,54,64,74};
+int max,min,sum;
+int print_tree() {
+  printf("\n");
+  for (int i = 0; i < 15; i++) {
+    if (tree[i] != '\0')
+      printf(" %d ",tree[i]);
+    else
+      printf(" - ");
+  }
+  return 0;
+}
+int get_right_child(int index)
+{
+    if(tree[index]!='\0' && ((2*index)+2)<complete_node)
+        return (2*index)+2;
+    return -1;
+}
+int get_left_child(int index)
+{
+    if(tree[index]!='\0' && (2*index)+1<complete_node)
+        return (2*index)+1;
+    return -1;
+}
+void preorder(int index)
+{
+    if(index>=0 && tree[index]!='\0')
+    {
+        printf(" %d ",tree[index]);
+        preorder(get_left_child(index));
+        preorder(get_right_child(index));
+    }
+}
+void postorder(int index)
+{
+    if(index>=0 && tree[index]!='\0')
+    {
+        postorder(get_left_child(index));
+        postorder(get_right_child(index));
+        printf(" %d ",tree[index]);
+    }
+}
+void inorder(int index)
+{
+    if(index>=0 && tree[index]!='\0')
+    {
+        inorder(get_left_child(index));
+        printf(" %d ",tree[index]);
+        {
+            if(max<tree[index])
+                max=tree[index];
+            if(min>tree[index])
+                min=tree[index];
+            sum=sum+tree[index];
+        }
+        inorder(get_right_child(index));
+    }
+}
+void levelorder()
+{
+    int j;
+    for(j=0;j<complete_node;j++)
+    {
+        if(tree[j]!='\0')
+            printf(" %d ",tree[j]);
+    }
+}
+int is_leaf(int index)
+{
+    if(!get_left_child(index) && !get_right_child(index)){
+        return 1;
+    }
+    if(tree[get_left_child(index)]=='\0' && tree[get_right_child(index)]=='\0'){
+        return 1;
+    }
+    return 0;
+}
+int get_max(int a, int b)
+{
+    return (a>b) ? a : b;
+}
+int get_height(int index)
+{
+    if(tree[index]=='\0' || index<0 || is_leaf(index))
+        return 0;
+    return(get_max(get_height(get_left_child(index)), get_height(get_right_child(index)))+1);
+}
+int main()
+{
+    print_tree();
+    max=tree[0];
+    min=tree[0];
+    sum=0;
+    printf("\nPreorder:\n");
+    preorder(0);
+    printf("\nPostorder:\n");
+    postorder(0);
+    printf("\nInorder:\n");
+    inorder(0);
+    printf("\n max=%d",max);
+    printf("\n min=%d",min);
+    printf("\n sum=%d",sum);
+    printf("\nLevelorder:\n");
+    levelorder();
+    printf("\n");
+    printf("\nheight of the tree is:%d\n",get_height(0));
+    for(int i=0;i<complete_node;i++)
+    {
+      if(tree[i]!='\0'){
+        if(is_leaf(i))
+          printf("\n%d is a leaf node",tree[i]);
+      }
+    }
+}
+OUTPUT:
+ 
+OPERATIONS ON BINARY TREES USING LINKED LISTS:
+ 
+(i) Insertion:
+•	Create a new node with the data to be inserted.
+•	If the tree is empty, set the root to the new node and return.
+•	Otherwise, start from the root and traverse down the tree.
+•	At each node, if the data to be inserted is less than the current node's data, move to the left child. If greater, move to the right child.
+•	Repeat steps 4 until you reach a null pointer.
+•	Set the left or right child of the null pointer to the new node, depending on whether the data is less or greater than the current node's data.
+ 
+(ii) Deletion:
+•	Search for the node containing the data to be deleted.
+•	If the node has no children (leaf node), simply remove it.
+•	If the node has one child, replace the node with its child.
+•	If the node has two children, find the node's in-order successor (smallest node in its right subtree) or in-order predecessor (largest node in its left subtree).
+•	Replace the node to be deleted with the in-order successor/predecessor.
+•	Delete the in-order successor/predecessor from its original position.
+ 
+(iii) Preorder Traversal:
+•	Start at the root node.
+•	Visit the current node.
+•	Recursively traverse the left subtree.
+•	Recursively traverse the right subtree.
+(iv) Inorder Traversal:
+•	Start at the root node.
+•	Recursively traverse the left subtree.
+•	Visit the current node.
+•	Recursively traverse the right subtree.
+(v) Postorder Traversal:
+•	Start at the root node.
+•	Recursively traverse the left subtree.
+•	Recursively traverse the right subtree.
+•	Visit the current node.
+(vi) Levelorder Traversal:
+•	Enqueue the root node.
+•	While the queue is not empty:
+a. Dequeue a node and visit it.
+b. Enqueue its left child.
+c. Enqueue its right child.
+(vii) Print the Leaf Nodes:
+•	Start at the root node.
+•	If the current node is a leaf node (both left and right children are null), print its data.
+•	Recursively check the left and right subtrees.
+(viii) Print the Height of the Tree:
+•	If the tree is empty, the height is -1.
+•	Otherwise, recursively find the height of the left and right subtrees.
+•	Return the maximum height of the left and right subtrees, plus 1.
+(ix) Find the Max in Tree:
+•	Start at the root node.
+•	If the current node's data is greater than the maximum value, update the maximum value.
+•	Recursively check the left and right subtrees.
+(x) Find the Min in Tree:
+•	Start at the root node.
+•	If the current node's data is less than the minimum value, update the minimum value.
+•	Recursively check the left and right subtrees.
+(xi) Searching an Element in the Tree:
+•	Start at the root node.
+•	If the current node's data matches the target value, return true.
+•	If the target value is less than the current node's data, recursively search the left subtree.
+•	If the target value is greater than the current node's data, recursively search the right subtree.
+•	If a null pointer is reached, return false.
+
+
+(xii) Find Height and Breadth of Each Node:
+1.	Start at the root node with height and breadth values initialized to 0.
+2.	For each node, update its height as the height of its parent node plus 1.
+3.	For each node, update its breadth as the breadth of its parent node plus 1 if it is a right child, or the same breadth if it is a left child.
+4.	Recursively apply steps 2 and 3 to the left and right subtrees.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PROGRAM:
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+struct node *root = NULL;
+struct node* createNode(int data){
+    struct node *newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+struct queue {
+    int front, rear, size;
+    struct node* *arr;
+};
+struct queue* createQueue() {
+    struct queue* newQueue = (struct queue*)malloc(sizeof(struct queue));
+    newQueue->front = -1;
+    newQueue->rear = 0;
+    newQueue->size = 0;
+    newQueue->arr = (struct node**)malloc(100 * sizeof(struct node*));
+    return newQueue;
+}
+void enqueue(struct queue* queue, struct node *temp) {
+    queue->arr[queue->rear++] = temp;
+    queue->size++;
+}
+struct node *dequeue(struct queue* queue) {
+    queue->size--;
+    return queue->arr[++queue->front];
+}
+void insertNode(int data) {
+    struct node *newNode = createNode(data);
+    if(root == NULL){
+        root = newNode;
+        return;
+    }
+    else {
+        struct queue* queue = createQueue();
+        enqueue(queue, root);
+        while(true) {
+            struct node *node = dequeue(queue);
+            if(node->left != NULL && node->right != NULL) {
+                enqueue(queue, node->left);
+                enqueue(queue, node->right);
+            }
+            else {
+                if(node->left == NULL) {
+                    node->left = newNode;
+                    enqueue(queue, node->left);
+                }
+                else {
+                    node->right = newNode;
+                    enqueue(queue, node->right);
+                }
+                break;
+            }
+        }
+    }
+}
+void inorderTraversal(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        if(node->left != NULL)
+            inorderTraversal(node->left);
+        printf("%d ", node->data);
+        if(node->right != NULL)
+            inorderTraversal(node->right);
+    }
+}
+void preorderTraversal(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        printf("%d ", node->data);
+        if(node->left != NULL)
+            preorderTraversal(node->left);
+        if(node->right != NULL)
+            preorderTraversal(node->right);
+    }
+}
+void postorderTraversal(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        if(node->left != NULL)
+            postorderTraversal(node->left);
+        if(node->right != NULL)
+            postorderTraversal(node->right);
+        printf("%d ", node->data);
+    }
+}
+void levelorderTraversal(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        struct queue* queue = createQueue();
+        enqueue(queue, root);
+        while(queue->size > 0) {
+            struct node *current = dequeue(queue);
+            printf("%d ", current->data);
+            if(current->left != NULL)
+                enqueue(queue, current->left);
+            if(current->right != NULL)
+                enqueue(queue, current->right);
+        }
+    }
+}
+void printLeafNodes(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        if (node == NULL)
+            return;
+        if (node->left == NULL && node->right == NULL)
+            printf("%d ", node->data);
+        else {
+            printLeafNodes(node->left);
+            printLeafNodes(node->right);
+        }
+    }
+}
+int findMax(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return -1;
+    }
+    else {
+        if(node == NULL)
+            return INT_MIN;
+        int max = node->data;
+        int leftMax = findMax(node->left);
+        int rightMax = findMax(node->right);
+        if (leftMax > max)
+            max = leftMax;
+        if (rightMax > max)
+            max = rightMax;
+        return max;
+    }
+}
+int findMin(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return -1;
+    }
+    else {
+        if(node == NULL)
+            return INT_MAX;
+        int min = node->data;
+        int leftMin = findMin(node->left);
+        int rightMin = findMin(node->right);
+        if (leftMin < min)
+            min = leftMin;
+        if (rightMin < min)
+            min = rightMin;
+
+        return min;
+    }
+}
+bool searchElement(struct node *node, int target) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return false;
+    }
+    else {
+        if (node == NULL)
+            return false;
+        if (node->data == target)
+            return true;
+        return searchElement(node->left, target) || searchElement(node->right, target);
+    }
+}
+int getHeight(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return -1;
+    }
+    else {
+        if(node == NULL)
+            return -1;
+        int leftHeight = getHeight(node->left);
+        int rightHeight = getHeight(node->right);
+        return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+    }
+}
+void getBreadth(struct node *node, int height, int *breadth) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        if(node == NULL)
+            return;
+        if(height == 0)
+            (*breadth)++;
+        else {
+            getBreadth(node->left, height - 1, breadth);
+            getBreadth(node->right, height - 1, breadth);
+        }
+    }
+}
+void breadthOfEachNode(struct node *node) {
+    if(root == NULL){
+        printf("Tree is empty\n");
+        return;
+    }
+    else {
+        int height = getHeight(node);
+        for (int i = 0; i <= height; i++) {
+            int breadth = 0;
+            getBreadth(node, i, &breadth);
+            printf("Node at height %d: %d\n", i, breadth);
+        }
+    }
+}
+int main(){
+    int choice, value;
+    printf("\n----- Binary Tree -----\n");
+    while(1){
+        printf("\n***** MENU *****\n");
+        printf("1. Insert\n2. Display Inorder\n3. Display Preorder\n4. Display Postorder\n");
+        printf("5. Display Levelorder\n6. Print Leaf Nodes\n7. Find Max\n8. Find Min\n");
+        printf("9. Search Element\n10. Print Height\n11. Print Breadth of Each Node\n12. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                printf("\nEnter the value to be insert: ");
+                scanf("%d", &value);
+                insertNode(value);
+                break;
+            case 2:
+                printf("\nInorder Traversal: ");
+                inorderTraversal(root);
+                break;
+            case 3:
+                printf("\nPreorder Traversal: ");
+                preorderTraversal(root);
+                break;
+            case 4:
+                printf("\nPostorder Traversal: ");
+                postorderTraversal(root);
+                break;
+            case 5:
+                printf("\nLevelorder Traversal: ");
+                levelorderTraversal(root);
+                break;
+            case 6:
+                printf("\nLeaf Nodes: ");
+                printLeafNodes(root);
+                break;
+            case 7:
+                printf("\nMax Element: %d", findMax(root));
+                break;
+            case 8:
+                printf("\nMin Element: %d", findMin(root));
+                break;
+            case 9:
+                printf("\nEnter element to be searched: ");
+                scanf("%d", &value);
+                if (searchElement(root, value))
+                    printf("Element found in the tree.\n");
+                else
+                    printf("Element not found in the tree.\n");
+                break;
+            case 10:
+                printf("\nHeight of the Tree: %d", getHeight(root));
+                break;
+            case 11:
+                breadthOfEachNode(root);
+                break;
+            case 12:
+                exit(0);
+            default:
+                printf("\nPlease select correct operations!!!\n");
+        }  }
+    return 0;
+}
+OUTPUT:
+
+
+
+
+
+
+
+
+
+
+
+
+ 
